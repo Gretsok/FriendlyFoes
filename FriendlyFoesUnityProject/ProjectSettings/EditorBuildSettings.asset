@@ -6,9 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Workbenches/PhotonSample/PhotonSample.unity
-    guid: ac5556ce7d4187640be30fd05a6fa566
+    path: Assets/FriendlyFoes/MainMenu/MainMenu.unity
+    guid: 5deb9955804382c47ae566b2abdef9e2
   - enabled: 1
-    path: Assets/Workbenches/PhotonSample/PhotonSample_PlayLevel.unity
-    guid: 3b700649b1a627d49827ab30ba306e26
+    path: Assets/FriendlyFoes/Hub/Hub.unity
+    guid: 642166c6e5fe2834ba5a7286d7044f20
   m_configObjects: {}
