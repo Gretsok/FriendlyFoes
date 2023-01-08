@@ -10,8 +10,8 @@ namespace FriendlyFoes.NetworkManager
     {
         private NetworkRunner _runner;
 
-        [SerializeField] private NetworkPrefabRef _playerPrefab;
-        private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
+        [SerializeField] private Controls.NetworkSceneControls _sceneControls;
+        private Dictionary<PlayerRef, Controls.NetworkSceneControls> _spawnedCharacters = new Dictionary<PlayerRef, Controls.NetworkSceneControls>();
 
         public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
         {
@@ -19,18 +19,30 @@ namespace FriendlyFoes.NetworkManager
             {
                 // Create a unique position for the player
                 Vector3 spawnPosition = new Vector3((player.RawEncoded % runner.Config.Simulation.DefaultPlayers) * 3, 1, 0);
-                NetworkObject networkPlayerObject = runner.Spawn(_playerPrefab, spawnPosition, Quaternion.identity, player);
+                Controls.ANetworkCharacter networkPlayerCharacter = 
+                    runner.Spawn(_sceneControls.character, spawnPosition, Quaternion.identity);
+                Controls.ANetworkInputController networkInputController =
+                    runner.Spawn(_sceneControls.inputController, default, default, player);
+
+                networkInputController.Possess(networkPlayerCharacter);
+
+                Controls.NetworkSceneControls newPlayerSceneControls;
+                newPlayerSceneControls.character = networkPlayerCharacter;
+                newPlayerSceneControls.inputController = networkInputController;
+
                 // Keep track of the player avatars so we can remove it when they disconnect
-                _spawnedCharacters.Add(player, networkPlayerObject);
+                _spawnedCharacters.Add(player, newPlayerSceneControls);
             }
         }
 
         public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
         {
             // Find and remove the players avatar
-            if (_spawnedCharacters.TryGetValue(player, out NetworkObject networkObject))
+            if (_spawnedCharacters.TryGetValue(player, out Controls.NetworkSceneControls playerSceneControls))
             {
-                runner.Despawn(networkObject);
+                playerSceneControls.inputController.Possess(null);
+                runner.Despawn(playerSceneControls.inputController.Object);
+                runner.Despawn(playerSceneControls.character.Object);
                 _spawnedCharacters.Remove(player);
             }
         }

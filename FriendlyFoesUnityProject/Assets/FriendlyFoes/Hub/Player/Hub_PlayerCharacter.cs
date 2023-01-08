@@ -1,10 +1,14 @@
 using Fusion;
+using UnityEngine;
 
 namespace FriendlyFoes.Hub.Player
 {
-    public class Hub_PlayerCharacter : NetworkBehaviour
+    public class Hub_PlayerCharacter : NetworkManager.Controls.ANetworkCharacter
     {
         private NetworkCharacterControllerPrototype _characterController = null;
+
+        [Networked]
+        private Vector2 direction { get; set; }
 
         private void Awake()
         {
@@ -14,15 +18,19 @@ namespace FriendlyFoes.Hub.Player
         public override void FixedUpdateNetwork()
         {
             base.FixedUpdateNetwork();
-            if(GetInput(out NetworkManager.NetworkInputData inputData))
-            {
-                if(inputData.directionInput.sqrMagnitude > 1)
-                {
-                    inputData.directionInput.Normalize();
-                }
 
-                _characterController.Move(new UnityEngine.Vector3(inputData.directionInput.x, 0f, inputData.directionInput.y));
+            if(direction.sqrMagnitude > 1)
+            {
+                direction.Normalize();
             }
+
+            _characterController.Move(new UnityEngine.Vector3(direction.x, 0f, direction.y));
+            
+        }
+
+        public void SetDirection(Vector2 direction)
+        {
+            this.direction = direction;
         }
     }
 }
