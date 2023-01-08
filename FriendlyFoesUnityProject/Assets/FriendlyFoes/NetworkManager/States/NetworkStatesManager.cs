@@ -28,7 +28,13 @@ namespace FriendlyFoes.NetworkManager.States
         {
             ClusterState newCluster = new ClusterState();
             newCluster.isConnected = true;
-            newCluster.players.Set(0, new PlayerState { name = $"Player{Random.Range(0,5000)}", color = Color.red});
+            var inputManager = FindObjectOfType<Controls.PlayerInputManagerController>();
+
+            for(int i = 0; i < inputManager.playerCount; ++i)
+            {
+                var playerData = inputManager.GetPlayerInput(i).GetComponent<Controls.PlayerInputData>();
+                newCluster.players.Set(i, playerData.playerState);
+            }
             Rpc_ShareLocalClusterWithAuthority(player, newCluster);
         }
         

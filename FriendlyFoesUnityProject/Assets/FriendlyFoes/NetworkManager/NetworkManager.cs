@@ -14,7 +14,7 @@ namespace FriendlyFoes.NetworkManager
         private Controls.PlayerInputManagerController _inputManagerController = null;
 
         [SerializeField] private Controls.NetworkSceneControls _sceneControls;
-        private Dictionary<PlayerRef, Controls.NetworkSceneControls> _spawnedCharacters = new Dictionary<PlayerRef, Controls.NetworkSceneControls>();
+        private Dictionary<PlayerRef, List<Controls.NetworkSceneControls>> _spawnedCharacters = new Dictionary<PlayerRef, List<Controls.NetworkSceneControls>>();
         [SerializeField]
         private States.NetworkStatesManager _statesManagerPrefab = null;
 
@@ -34,21 +34,30 @@ namespace FriendlyFoes.NetworkManager
                     _statesManager = runner.Spawn(_statesManagerPrefab);
                 }
 
+
+                List<Controls.NetworkSceneControls> playersSceneControls = new List<Controls.NetworkSceneControls>();
                 // Create a unique position for the player
-                Vector3 spawnPosition = new Vector3((player.RawEncoded % runner.Config.Simulation.DefaultPlayers) * 3, 1, 0);
-                Controls.ANetworkCharacter networkPlayerCharacter = 
-                    runner.Spawn(_sceneControls.character, spawnPosition, Quaternion.identity);
-                Controls.ANetworkInputController networkInputController =
-                    runner.Spawn(_sceneControls.inputController, default, default, player);
+                for(int i = 0; i < _inputManagerController.playerCount; ++i)
+                {
+                    Vector3 spawnPosition = new Vector3((player.RawEncoded % runner.Config.Simulation.DefaultPlayers) * 3, 1, i);
+                    Controls.ANetworkCharacter networkPlayerCharacter =
+                        runner.Spawn(_sceneControls.character, spawnPosition, Quaternion.identity);
+                    Controls.ANetworkInputController networkInputController =
+                        runner.Spawn(_sceneControls.inputController, default, default, player);
 
-                networkInputController.Possess(networkPlayerCharacter);
+                    networkInputController.Possess(networkPlayerCharacter);
+                    networkInputController.localPlayerIndex = i;
 
-                Controls.NetworkSceneControls newPlayerSceneControls;
-                newPlayerSceneControls.character = networkPlayerCharacter;
-                newPlayerSceneControls.inputController = networkInputController;
+                    Controls.NetworkSceneControls newPlayerSceneControls;
+                    newPlayerSceneControls.character = networkPlayerCharacter;
+                    newPlayerSceneControls.inputController = networkInputController;
+
+                    playersSceneControls.Add(newPlayerSceneControls);
+                }
+                
 
                 // Keep track of the player avatars so we can remove it when they disconnect
-                _spawnedCharacters.Add(player, newPlayerSceneControls);
+                _spawnedCharacters.Add(player, playersSceneControls);
 
                 _statesManager.HandleNewPlayerConnected(player);
             }
@@ -57,12 +66,17 @@ namespace FriendlyFoes.NetworkManager
         public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
         {
             // Find and remove the players avatar
-            if (_spawnedCharacters.TryGetValue(player, out Controls.NetworkSceneControls playerSceneControls))
+            if (_spawnedCharacters.TryGetValue(player, out List<Controls.NetworkSceneControls> playersSceneControls))
             {
-                playerSceneControls.inputController.Possess(null);
-                runner.Despawn(playerSceneControls.inputController.Object);
-                runner.Despawn(playerSceneControls.character.Object);
+                for(int i = playersSceneControls.Count - 1; i <= 0; --i)
+                {
+                    playersSceneControls[i].inputController.Possess(null);
+                    runner.Despawn(playersSceneControls[i].inputController.Object);
+                    runner.Despawn(playersSceneControls[i].character.Object);
+                    playersSceneControls.RemoveAt(i);
+                }
                 _spawnedCharacters.Remove(player);
+                
             }
 
             _statesManager.HandlePlayerDisconnected(player);
@@ -70,18 +84,13 @@ namespace FriendlyFoes.NetworkManager
         public void OnInput(NetworkRunner runner, NetworkInput input)
         {
             var data = new NetworkInputData();
-            /*
-            if (Input.GetKey(KeyCode.Z))
-                data.directionInput += Vector2.up;
-
-            if (Input.GetKey(KeyCode.S))
-                data.directionInput += Vector2.down;
-
-            if (Input.GetKey(KeyCode.Q))
-                data.directionInput += Vector2.left;
-
-            if (Input.GetKey(KeyCode.D))
-                data.directionInput += Vector2.right;*/
+            for(int i = 0; i < _inputManagerController.playerCount; ++i)
+            {
+                NetworkInputData.PlayerData playerData = new NetworkInputData.PlayerData();
+                playerData.directionInput = _inputManagerController.GetPlayerInput(i).
+                    actions.FindActionMap("Hub").FindAction("Movement").ReadValue<Vector2>();
+                data.playerData.Set(i, playerData);
+            }
             input.Set(data);
         }
         public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
@@ -91,7 +100,9 @@ namespace FriendlyFoes.NetworkManager
                 SceneManager.LoadSceneAsync(0);
             ClearManager();
         }
-        public void OnConnectedToServer(NetworkRunner runner) { }
+        public void OnConnectedToServer(NetworkRunner runner) 
+        {
+        }
         public void OnDisconnectedFromServer(NetworkRunner runner) 
         {
             if (SceneManager.GetActiveScene().buildIndex != 0)

@@ -51,7 +51,7 @@ namespace FriendlyFoes.NetworkManager.Controls
 
         public PlayerInput GetPlayerInput(int index)
         {
-            return playerCount > index ? _playerInputs[0] : null;
+            return playerCount > index ? _playerInputs[index] : null;
         }
 
         #region private callbacks

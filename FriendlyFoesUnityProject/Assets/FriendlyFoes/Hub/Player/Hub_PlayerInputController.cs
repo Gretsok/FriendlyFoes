@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace FriendlyFoes.Hub.Player
 {
     public class Hub_PlayerInputController : NetworkManager.Controls.ANetworkInputController
@@ -7,19 +9,25 @@ namespace FriendlyFoes.Hub.Player
             base.FixedUpdateNetwork();
             if (GetInput(out NetworkManager.NetworkInputData inputData))
             {
-                /*if (inputData.directionInput.sqrMagnitude > 1)
+                var playerInputData = inputData.playerData[localPlayerIndex];
+
+
+
+                if (playerInputData.directionInput.sqrMagnitude > 1)
                 {
-                    inputData.directionInput.Normalize();
+                    playerInputData.directionInput.Normalize();
                 }
-                
+
+                Debug.Log($"Local player {localPlayerIndex} | movement : {playerInputData.directionInput}");
+
                 var currentCharacter = CurrentCharacter;
                 if(currentCharacter)
                 {
                     if (currentCharacter is Hub_PlayerCharacter)
                     {
-                        (currentCharacter as Hub_PlayerCharacter).SetDirection(inputData.directionInput);
+                        (currentCharacter as Hub_PlayerCharacter).SetDirection(playerInputData.directionInput);
                     }
-                } */
+                }
             }
         }
     }

@@ -6,6 +6,8 @@ namespace FriendlyFoes.NetworkManager.Controls
     {
         [Networked]
         private NetworkId _possessedCharacterID { get; set; }
+        [Networked]
+        public int localPlayerIndex { get; set; }
 
         /// <summary>
         /// Cache this value to use it
