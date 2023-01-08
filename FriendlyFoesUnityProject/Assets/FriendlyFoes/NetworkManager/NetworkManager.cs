@@ -3,20 +3,31 @@ using Fusion.Sockets;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace FriendlyFoes.NetworkManager
 {
     public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     {
         private NetworkRunner _runner;
+        private States.NetworkStatesManager _statesManager = null;
 
         [SerializeField] private Controls.NetworkSceneControls _sceneControls;
         private Dictionary<PlayerRef, Controls.NetworkSceneControls> _spawnedCharacters = new Dictionary<PlayerRef, Controls.NetworkSceneControls>();
+        [SerializeField]
+        private States.NetworkStatesManager _statesManagerPrefab = null;
+
+        private bool _isInitialized = false;
 
         public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
         {
             if (runner.IsServer)
             {
+                if(!_isInitialized)
+                {
+                    _statesManager = runner.Spawn(_statesManagerPrefab);
+                }
+
                 // Create a unique position for the player
                 Vector3 spawnPosition = new Vector3((player.RawEncoded % runner.Config.Simulation.DefaultPlayers) * 3, 1, 0);
                 Controls.ANetworkCharacter networkPlayerCharacter = 
@@ -32,6 +43,8 @@ namespace FriendlyFoes.NetworkManager
 
                 // Keep track of the player avatars so we can remove it when they disconnect
                 _spawnedCharacters.Add(player, newPlayerSceneControls);
+
+                _statesManager.HandleNewPlayerConnected(player);
             }
         }
 
@@ -45,6 +58,8 @@ namespace FriendlyFoes.NetworkManager
                 runner.Despawn(playerSceneControls.character.Object);
                 _spawnedCharacters.Remove(player);
             }
+
+            _statesManager.HandlePlayerDisconnected(player);
         }
         public void OnInput(NetworkRunner runner, NetworkInput input)
         {
@@ -64,11 +79,26 @@ namespace FriendlyFoes.NetworkManager
             input.Set(data);
         }
         public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
-        public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }
+        public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) 
+        {
+            if(SceneManager.GetActiveScene().buildIndex != 0)
+                SceneManager.LoadSceneAsync(0);
+            ClearManager();
+        }
         public void OnConnectedToServer(NetworkRunner runner) { }
-        public void OnDisconnectedFromServer(NetworkRunner runner) { }
+        public void OnDisconnectedFromServer(NetworkRunner runner) 
+        {
+            if (SceneManager.GetActiveScene().buildIndex != 0)
+                SceneManager.LoadSceneAsync(0);
+            ClearManager();
+        }
         public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token) { }
-        public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason) { }
+        public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
+        {
+            if (SceneManager.GetActiveScene().buildIndex != 0)
+                SceneManager.LoadSceneAsync(0);
+            ClearManager();
+        }
         public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }
         public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList) { }
         public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data) { }
@@ -97,6 +127,14 @@ namespace FriendlyFoes.NetworkManager
                 Scene = 1,
                 SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
             });
+        }
+
+        private void ClearManager()
+        {
+            Destroy(_runner);
+            Destroy(GetComponent<NetworkSceneManagerDefault>());
+            if(_statesManager)
+                Destroy(_statesManager.gameObject);
         }
     }
 }

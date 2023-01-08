@@ -44,5 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fd48d1adc2d28f4c8408493f93251b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerPrefab:
-    RawGuidValue: efbd863300aa28a41bad261e5ce6e6e6
+  _sceneControls:
+    inputController: {fileID: 7485228113287065538, guid: ebac22863503306439cb61d6bb3789f8,
+      type: 3}
+    character: {fileID: 6944324399037614898, guid: efbd863300aa28a41bad261e5ce6e6e6,
+      type: 3}
+  _statesManagerPrefab: {fileID: 1642331853488166695, guid: 13a33a7e8da96bf40912f08ecc61656a,
+    type: 3}
