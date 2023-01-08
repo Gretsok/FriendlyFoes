@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace FriendlyFoes.MainMenu
@@ -13,6 +14,8 @@ namespace FriendlyFoes.MainMenu
         private HomeScreen.HomeScreenCanvasController _homeScreenCanvas = null;
         [SerializeField]
         private JoinServerScreen.JoinServerScreenCanvasController _joinServerScreenCanvas = null;
+        [SerializeField]
+        private PlayerMonitoringScreen.PlayerMonitoringScreenCanvasController _playerMonitoringScreenCanvas = null;
 
         private void Awake()
         {
@@ -28,6 +31,18 @@ namespace FriendlyFoes.MainMenu
         private void Start()
         {
             ActivateHomeScreen();
+            _mainMenuManager.inputManagerController.onPlayerCountUpdated += HandlePlayerCountUpdated;
+            HandlePlayerCountUpdated();
+        }
+
+        private void OnDestroy()
+        {
+            _mainMenuManager.inputManagerController.onPlayerCountUpdated -= HandlePlayerCountUpdated;
+        }
+
+        private void HandlePlayerCountUpdated()
+        {
+            _playerMonitoringScreenCanvas.SetUpWidgets(_mainMenuManager.inputManagerController.playerInputs);
         }
 
         public void ActivateHomeScreen()

@@ -7,7 +7,7 @@ namespace FriendlyFoes.Hub.Player
             base.FixedUpdateNetwork();
             if (GetInput(out NetworkManager.NetworkInputData inputData))
             {
-                if (inputData.directionInput.sqrMagnitude > 1)
+                /*if (inputData.directionInput.sqrMagnitude > 1)
                 {
                     inputData.directionInput.Normalize();
                 }
@@ -19,7 +19,7 @@ namespace FriendlyFoes.Hub.Player
                     {
                         (currentCharacter as Hub_PlayerCharacter).SetDirection(inputData.directionInput);
                     }
-                } 
+                } */
             }
         }
     }

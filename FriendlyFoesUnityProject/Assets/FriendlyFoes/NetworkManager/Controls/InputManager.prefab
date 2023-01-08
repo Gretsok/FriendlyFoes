@@ -1,0 +1,133 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7992346838575758391
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7992346838575758389}
+  - component: {fileID: 7992346838575758390}
+  - component: {fileID: 5868799478834458646}
+  m_Layer: 0
+  m_Name: InputManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7992346838575758389
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7992346838575758391}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7992346838575758390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7992346838575758391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 621567455fd1c4ceb811cc8a00b6a1a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NotificationBehavior: 3
+  m_MaxPlayerCount: 8
+  m_AllowJoining: 1
+  m_JoinBehavior: 0
+  m_PlayerJoinedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_PlayerLeftEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_JoinAction:
+    m_UseReference: 0
+    m_Action:
+      m_Name: 
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  m_PlayerPrefab: {fileID: 2772910148017312526, guid: 65abef09aa78bed488c139566b64698f,
+    type: 3}
+  m_SplitScreen: 0
+  m_MaintainAspectRatioInSplitScreen: 0
+  m_FixedNumberOfSplitScreens: -1
+  m_SplitScreenRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!114 &5868799478834458646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7992346838575758391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4347de5dce7b0a446ac8380eef6c7ec9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _defaultPlayerStates:
+  - name:
+      _length: 6
+      _data:
+        Data: 4d000000690000006300000068000000650000006c00000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    color: {r: 0.35321996, g: 0.87, b: 0.37044594, a: 1}
+  - name:
+      _length: 8
+      _data:
+        Data: 4600000072000000610000006e00000063000000690000006e000000650000000000000000000000000000000000000000000000000000000000000000000000
+    color: {r: 0.87058824, g: 0.35294122, b: 0.81882334, a: 1}
+  - name:
+      _length: 5
+      _data:
+        Data: 4c000000610000007300000063000000610000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    color: {r: 0.87058824, g: 0.8619608, b: 0.35294122, a: 1}
+  - name:
+      _length: 7
+      _data:
+        Data: 520000006f000000640000006f0000006c0000007000000068000000000000000000000000000000000000000000000000000000000000000000000000000000
+    color: {r: 0.35294122, g: 0.6203922, b: 0.87058824, a: 1}
+  - name:
+      _length: 9
+      _data:
+        Data: 4c000000610000006d000000610000006e00000074000000690000006e0000006500000000000000000000000000000000000000000000000000000000000000
+    color: {r: 0.6290196, g: 0.35294122, b: 0.87058824, a: 1}
+  - name:
+      _length: 4
+      _data:
+        Data: 4c000000750000006700000065000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    color: {r: 0.35294122, g: 0.87058824, b: 0.7411765, a: 1}
+  - name:
+      _length: 7
+      _data:
+        Data: 440000006f0000006e0000006f00000076000000610000006e000000000000000000000000000000000000000000000000000000000000000000000000000000
+    color: {r: 0.87058824, g: 0.5513726, b: 0.35294122, a: 1}
+  - name:
+      _length: 7
+      _data:
+        Data: 4c000000610000007400000065000000720000007200000065000000000000000000000000000000000000000000000000000000000000000000000000000000
+    color: {r: 0.87058824, g: 0.35294122, b: 0.35294122, a: 1}

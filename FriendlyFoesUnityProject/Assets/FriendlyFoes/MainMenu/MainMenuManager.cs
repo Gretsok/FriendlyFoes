@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace FriendlyFoes.MainMenu
@@ -7,6 +8,31 @@ namespace FriendlyFoes.MainMenu
         [SerializeField]
         private NetworkManager.NetworkManager _networkManagerPrefab = null;
         private NetworkManager.NetworkManager _networkManager = null;
+
+        [SerializeField]
+        private NetworkManager.Controls.PlayerInputManagerController _inputManagerControllerPrefab = null;
+        private NetworkManager.Controls.PlayerInputManagerController _inputManagerController = null;
+        public NetworkManager.Controls.PlayerInputManagerController inputManagerController => _inputManagerController;
+
+
+
+        private void Awake()
+        {
+            _inputManagerController = FindObjectOfType<NetworkManager.Controls.PlayerInputManagerController>();
+
+            if(!_inputManagerController)
+            {
+                _inputManagerController = Instantiate(_inputManagerControllerPrefab);
+            }
+            _inputManagerController.EnablePlayerRegistration();
+            
+        }
+
+        private void OnDestroy()
+        {
+            _inputManagerController.DisablePlayerRegistration();
+        }
+
         public void StartGameAsHost(string sessionName)
         {
             if(_networkManager)

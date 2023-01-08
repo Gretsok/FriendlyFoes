@@ -11,4 +11,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/FriendlyFoes/Hub/Hub.unity
     guid: 642166c6e5fe2834ba5a7286d7044f20
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: c4ba032c90f566141915e6ce200d903d,
+      type: 2}

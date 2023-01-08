@@ -11,6 +11,7 @@ namespace FriendlyFoes.NetworkManager
     {
         private NetworkRunner _runner;
         private States.NetworkStatesManager _statesManager = null;
+        private Controls.PlayerInputManagerController _inputManagerController = null;
 
         [SerializeField] private Controls.NetworkSceneControls _sceneControls;
         private Dictionary<PlayerRef, Controls.NetworkSceneControls> _spawnedCharacters = new Dictionary<PlayerRef, Controls.NetworkSceneControls>();
@@ -18,6 +19,11 @@ namespace FriendlyFoes.NetworkManager
         private States.NetworkStatesManager _statesManagerPrefab = null;
 
         private bool _isInitialized = false;
+
+        private void Awake()
+        {
+            _inputManagerController = FindObjectOfType<Controls.PlayerInputManagerController>();
+        }
 
         public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
         {
@@ -64,7 +70,7 @@ namespace FriendlyFoes.NetworkManager
         public void OnInput(NetworkRunner runner, NetworkInput input)
         {
             var data = new NetworkInputData();
-
+            /*
             if (Input.GetKey(KeyCode.Z))
                 data.directionInput += Vector2.up;
 
@@ -75,7 +81,7 @@ namespace FriendlyFoes.NetworkManager
                 data.directionInput += Vector2.left;
 
             if (Input.GetKey(KeyCode.D))
-                data.directionInput += Vector2.right;
+                data.directionInput += Vector2.right;*/
             input.Set(data);
         }
         public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }

@@ -154,6 +154,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _networkManagerPrefab: {fileID: 4049512794284775585, guid: 8419225709592c549aa19a7afa137183,
     type: 3}
+  _inputManagerControllerPrefab: {fileID: 5868799478834458646, guid: 112c89848e0971c4eafdf0269f9912c3,
+    type: 3}
 --- !u!4 &18539120
 Transform:
   m_ObjectHideFlags: 0
@@ -496,76 +498,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2488046736096461224, guid: 6c70dd7111cb8034086143af19a69853,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2488046736096461224, guid: 6c70dd7111cb8034086143af19a69853,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2488046736096461224, guid: 6c70dd7111cb8034086143af19a69853,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2488046736096461224, guid: 6c70dd7111cb8034086143af19a69853,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2488046736096461224, guid: 6c70dd7111cb8034086143af19a69853,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: StartGameAsHost
-      objectReference: {fileID: 0}
-    - target: {fileID: 2488046736096461224, guid: 6c70dd7111cb8034086143af19a69853,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: FriendlyFoes.NetworkManager.NetworkManager, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 2488046736096461224, guid: 6c70dd7111cb8034086143af19a69853,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 2488046737332182482, guid: 6c70dd7111cb8034086143af19a69853,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2488046737332182482, guid: 6c70dd7111cb8034086143af19a69853,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2488046737332182482, guid: 6c70dd7111cb8034086143af19a69853,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2488046737332182482, guid: 6c70dd7111cb8034086143af19a69853,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2488046737332182482, guid: 6c70dd7111cb8034086143af19a69853,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: StartGameAsClient
-      objectReference: {fileID: 0}
-    - target: {fileID: 2488046737332182482, guid: 6c70dd7111cb8034086143af19a69853,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: FriendlyFoes.NetworkManager.NetworkManager, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 2488046737332182482, guid: 6c70dd7111cb8034086143af19a69853,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 7914566664495572082, guid: 6c70dd7111cb8034086143af19a69853,
         type: 3}
       propertyPath: m_Name
